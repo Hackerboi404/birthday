@@ -27,7 +27,7 @@
         .msg { position: absolute; color: white; font-weight: bold; font-size: 20px; z-index: 5; }
         .hint { margin-top: 20px; color: white; animation: blink 1s infinite; }
 
-        /* --- JAVNI'S BIRTHDAY (UPGRADED) --- */
+        /* --- JAVNI'S BIRTHDAY (NO IMAGE) --- */
         #birthday-section {
             width: 100%; height: 100vh;
             background: radial-gradient(circle at center, #2c0a32 0%, #000000 80%);
@@ -48,11 +48,14 @@
             position: relative; z-index: 5;
         }
 
-        .profile-pic {
-            width: 180px; height: 180px; border-radius: 50%;
-            border: 4px solid #00e5ff; /* Cyan Border */
+        /* Decorative Circle (Replacing Photo) */
+        .circle-placeholder {
+            width: 150px; height: 150px; border-radius: 50%;
+            border: 3px solid #00e5ff; /* Cyan Border */
             box-shadow: 0 0 20px #00e5ff; /* Cyan Glow */
-            object-fit: cover; margin: 0 auto 20px;
+            margin: 0 auto 20px;
+            display: flex; justify-content: center; align-items: center;
+            font-size: 60px;
             animation: spinGlow 3s linear infinite;
         }
 
@@ -102,7 +105,7 @@
         }
         .next-btn:hover { transform: scale(1.1); box-shadow: 0 0 30px #00e5ff; }
 
-        /* --- ANNIVERSARY --- */
+        /* --- ANNIVERSARY (NO IMAGE) --- */
         #anniversary-section {
             width: 100%; height: 100vh; background: #000; display: none;
             flex-direction: column; justify-content: center; align-items: center; position: absolute; z-index: 5;
@@ -114,7 +117,13 @@
         }
         .anniv-card h2 { color: #ff6b81; font-size: 30px; margin-bottom: 10px; }
         .anniv-card p { color: white; margin-bottom: 10px; }
-        .anniv-pic { width: 220px; height: 160px; object-fit: cover; border: 3px solid #ff6b81; margin: 15px 0; border-radius: 10px; }
+        
+        /* Decorative Heart (Replacing Image) */
+        .heart-placeholder {
+            font-size: 60px; margin: 15px 0;
+            animation: pulse 1.5s infinite;
+            text-shadow: 0 0 20px #ff6b81;
+        }
 
         /* --- PARTICLES & ANIMATIONS --- */
         .particle {
@@ -138,10 +147,10 @@
 <body>
 
     <audio id="bgMusic">
-        <source src="https://soundcloud.com/janavi-mate/happy-birthday-song-in-2?in=aishath-safeela/sets/happy-birthday-day-song&si=65a021065e224c76b4152d3d63b58dd0&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing" type="audio/mp3">
+        <source src="happy_birthday.mp3" type="audio/mp3">
     </audio>
     <audio id="annivMusic">
-        <source src="https://soundcloud.com/sachin-harriram/2000s-hits-hindi-songs?si=df185765e7f74d918e8cb6d1d0f3521d&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing">
+        <source src="romantic_song.mp3" type="audio/mp3">
     </audio>
 
     <!-- LANDING -->
@@ -160,8 +169,8 @@
         <div class="premium-card">
             <h1 class="bday-title">Happy Birthday<br>Janvi 🎂</h1>
             
-            <!-- PHOTO: Change 'janvi.png' with your file name -->
-            <img src="https://kommodo.ai/i/mL8QgNS9TlyKeWdBE4kk" class="profile-pic" alt="Janvi">
+            <!-- Decorative Circle instead of Image -->
+            <div class="circle-placeholder">🎂</div>
 
             <p class="bday-text">
                 Love you & Miss you.<br>
@@ -186,8 +195,10 @@
         <canvas id="fwCanvas"></canvas>
         <div class="anniv-card">
             <h2>Happy Anniversary</h2>
-            <!-- PHOTO: Change 'couple.png' with your file name -->
-            <img src="https://kommodo.ai/i/SflsUKSoXktWxYjod4PH" class="anniv-pic" alt="Jaan Papa & Chhoti Mummy">
+            
+            <!-- Decorative Heart instead of Image -->
+            <div class="heart-placeholder">❤️</div>
+
             <p>Chhoti Mummy & Jaan Papa<br>Aap dono hamesha happy rehna.<br>God bless you. ✨</p>
         </div>
     </div>
@@ -212,7 +223,7 @@
             startGoldParticles();
         }
 
-        // 2. GOLDEN PARTICLES (For Glory Effect)
+        // 2. GOLDEN PARTICLES
         function startGoldParticles() {
             const container = document.getElementById('particles-container');
             setInterval(() => {
@@ -245,7 +256,7 @@
             startFireworks();
         }
 
-        // 5. FIREWORKS LOGIC
+        // 5. FIREWORKS
         function startFireworks() {
             const cvs = document.getElementById('fwCanvas');
             const ctx = cvs.getContext('2d');
