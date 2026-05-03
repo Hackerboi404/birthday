@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: family-surprise
+    runtime: static
+    buildCommand: ""
+    publishDir: .
+    env: static
