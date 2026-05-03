@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Special Surprise</title>
+    <style>
+        /* --- BASICS --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body, html { width: 100%; height: 100%; overflow: hidden; background-color: #000; }
+
+        /* --- LANDING --- */
+        #landing-page {
+            width: 100%; height: 100vh; background: linear-gradient(135deg, #1e272e, #000);
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            position: absolute; z-index: 20;
+        }
+        .envelope {
+            width: 260px; height: 170px; background: #ff4757; cursor: pointer;
+            position: relative; border-radius: 10px; display: flex; justify-content: center; align-items: center;
+            box-shadow: 0 0 20px #ff4757; animation: pulse 2s infinite;
+        }
+        .envelope::after {
+            content: ''; position: absolute; top: 0;
+            border: 130px solid transparent; border-top-color: #ff6b81; border-bottom: 0;
+        }
+        .msg { position: absolute; color: white; font-weight: bold; font-size: 20px; z-index: 5; }
+        .hint { margin-top: 20px; color: white; animation: blink 1s infinite; }
+
+        /* --- JAVNI'S BIRTHDAY (UPGRADED) --- */
+        #birthday-section {
+            width: 100%; height: 100vh;
+            background: radial-gradient(circle at center, #2c0a32 0%, #000000 80%);
+            display: none; flex-direction: column; justify-content: center; align-items: center;
+            position: absolute; z-index: 10; color: white; text-align: center;
+        }
+
+        /* Glowing Card Container */
+        .premium-card {
+            background: rgba(20, 20, 20, 0.85);
+            padding: 40px 30px;
+            border: 2px solid #ff00ff; /* Neon Pink Border */
+            border-radius: 25px;
+            box-shadow: 0 0 30px rgba(255, 0, 255, 0.3), inset 0 0 20px rgba(255, 0, 255, 0.1);
+            max-width: 90%; width: 400px;
+            backdrop-filter: blur(10px);
+            animation: cardFloat 4s ease-in-out infinite;
+            position: relative; z-index: 5;
+        }
+
+        .profile-pic {
+            width: 180px; height: 180px; border-radius: 50%;
+            border: 4px solid #00e5ff; /* Cyan Border */
+            box-shadow: 0 0 20px #00e5ff; /* Cyan Glow */
+            object-fit: cover; margin: 0 auto 20px;
+            animation: spinGlow 3s linear infinite;
+        }
+
+        h1.bday-title {
+            font-size: 32px; color: #ff00ff; text-transform: uppercase;
+            text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff;
+            margin-bottom: 15px;
+        }
+
+        .bday-text {
+            font-size: 18px; color: #ddd; line-height: 1.6; margin-bottom: 25px;
+        }
+
+        /* --- FANCY CAKE --- */
+        .cake-wrapper { position: relative; width: 120px; height: 80px; margin: 20px auto; }
+        .cake-base {
+            width: 120px; height: 50px; background: #ff9f43;
+            border-radius: 10px 10px 0 0; position: absolute; bottom: 0;
+            box-shadow: 0 0 15px #ff9f43;
+        }
+        .candle-stick {
+            width: 12px; height: 35px; background: linear-gradient(to bottom, #fff, #00e5ff);
+            position: absolute; bottom: 50px; left: 50%; transform: translateX(-50%);
+            box-shadow: 0 0 10px #00e5ff;
+        }
+        .flame-glow {
+            width: 18px; height: 22px; background: radial-gradient(circle, #fff, #ffd32a, #ff4757);
+            border-radius: 50% 50% 20% 20%; position: absolute; top: -25px; left: 50%;
+            transform: translateX(-50%); cursor: pointer;
+            box-shadow: 0 0 20px #ff9f43, 0 0 40px #ff4757;
+            animation: flicker 0.5s infinite alternate;
+        }
+        .flame-glow.off { display: none; }
+
+        .tap-msg {
+            color: #00e5ff; font-size: 14px; font-weight: bold; margin-top: 10px;
+            text-transform: uppercase; letter-spacing: 1px;
+        }
+
+        /* --- BUTTON --- */
+        .next-btn {
+            margin-top: 25px;
+            padding: 12px 35px; background: linear-gradient(90deg, #ff00ff, #00e5ff);
+            color: white; border: none; border-radius: 50px; font-size: 18px; font-weight: bold;
+            cursor: pointer; display: none; box-shadow: 0 0 20px #ff00ff;
+            transition: transform 0.3s;
+        }
+        .next-btn:hover { transform: scale(1.1); box-shadow: 0 0 30px #00e5ff; }
+
+        /* --- ANNIVERSARY --- */
+        #anniversary-section {
+            width: 100%; height: 100vh; background: #000; display: none;
+            flex-direction: column; justify-content: center; align-items: center; position: absolute; z-index: 5;
+        }
+        .anniv-card {
+            background: rgba(0,0,0,0.9); border: 2px solid white; padding: 30px;
+            border-radius: 15px; text-align: center; z-index: 10; max-width: 90%;
+            box-shadow: 0 0 30px rgba(255,255,255,0.3);
+        }
+        .anniv-card h2 { color: #ff6b81; font-size: 30px; margin-bottom: 10px; }
+        .anniv-card p { color: white; margin-bottom: 10px; }
+        .anniv-pic { width: 220px; height: 160px; object-fit: cover; border: 3px solid #ff6b81; margin: 15px 0; border-radius: 10px; }
+
+        /* --- PARTICLES & ANIMATIONS --- */
+        .particle {
+            position: absolute; width: 6px; height: 6px; background: gold;
+            border-radius: 50%; pointer-events: none; animation: fall 5s linear infinite;
+        }
+        @keyframes fall {
+            0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        }
+        @keyframes blink { 50% { opacity: 0; } }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+        @keyframes flicker { 0% { opacity: 1; transform: translateX(-50%) scale(1); } 100% { opacity: 0.8; transform: translateX(-50%) scale(1.1); } }
+        @keyframes spinGlow { 0% { box-shadow: 0 0 20px #00e5ff; } 50% { box-shadow: 0 0 35px #00e5ff, 0 0 10px #fff; } 100% { box-shadow: 0 0 20px #00e5ff; } }
+        @keyframes cardFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        
+        /* Canvas for fireworks */
+        #fwCanvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
+    </style>
+</head>
+<body>
+
+    <audio id="bgMusic">
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mp3">
+    </audio>
+    <audio id="annivMusic">
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" type="audio/mp3">
+    </audio>
+
+    <!-- LANDING -->
+    <div id="landing-page">
+        <div class="envelope" onclick="start()">
+            <div class="msg">SURPRISE</div>
+        </div>
+        <div class="hint">Tap to Open ✨</div>
+    </div>
+
+    <!-- JAVNI'S BIRTHDAY -->
+    <div id="birthday-section">
+        <!-- Golden Particles -->
+        <div id="particles-container"></div>
+
+        <div class="premium-card">
+            <h1 class="bday-title">Happy Birthday<br>Janvi 🎂</h1>
+            
+            <!-- PHOTO: Change 'janvi.png' with your file name -->
+            <img src="https://picsum.photos/seed/janvi/200/200" class="profile-pic" alt="Janvi">
+
+            <p class="bday-text">
+                Love you & Miss you.<br>
+                Hamesha khush rehna.<br>
+                Cute behen meri ❤️
+            </p>
+
+            <div class="cake-wrapper">
+                <div class="cake-base"></div>
+                <div class="candle-stick">
+                    <div class="flame-glow" id="flame" onclick="blowCandle()"></div>
+                </div>
+            </div>
+            <div class="tap-msg" id="tapMsg">Tap flame to wish 🕯️</div>
+
+            <button class="next-btn" id="nextBtn" onclick="goNext()">Next ➡️</button>
+        </div>
+    </div>
+
+    <!-- ANNIVERSARY -->
+    <div id="anniversary-section">
+        <canvas id="fwCanvas"></canvas>
+        <div class="anniv-card">
+            <h2>Happy Anniversary</h2>
+            <!-- PHOTO: Change 'couple.png' with your file name -->
+            <img src="https://picsum.photos/seed/wedding/220/160" class="anniv-pic" alt="Jaan Papa & Chhoti Mummy">
+            <p>Chhoti Mummy & Jaan Papa<br>Aap dono hamesha happy rehna.<br>God bless you. ✨</p>
+        </div>
+    </div>
+
+    <script>
+        // --- VARIABLES ---
+        const landing = document.getElementById('landing-page');
+        const bday = document.getElementById('birthday-section');
+        const anniv = document.getElementById('anniversary-section');
+        const flame = document.getElementById('flame');
+        const tapMsg = document.getElementById('tapMsg');
+        const nextBtn = document.getElementById('nextBtn');
+        const bgMusic = document.getElementById('bgMusic');
+        const annivMusic = document.getElementById('annivMusic');
+
+        // 1. START
+        function start() {
+            landing.style.display = 'none';
+            bday.style.display = 'flex';
+            
+            bgMusic.play().catch(e => console.log("Audio play needs interaction"));
+            startGoldParticles();
+        }
+
+        // 2. GOLDEN PARTICLES (For Glory Effect)
+        function startGoldParticles() {
+            const container = document.getElementById('particles-container');
+            setInterval(() => {
+                if(bday.style.display === 'none') return;
+                const p = document.createElement('div');
+                p.className = 'particle';
+                p.style.left = Math.random() * 100 + '%';
+                p.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                container.appendChild(p);
+                setTimeout(() => p.remove(), 5000);
+            }, 100);
+        }
+
+        // 3. BLOW CANDLE
+        function blowCandle() {
+            if(flame.style.display !== 'none') {
+                flame.classList.add('off');
+                tapMsg.textContent = "Happy Birthday Janvi! ✨";
+                tapMsg.style.color = "#ff00ff";
+                nextBtn.style.display = 'block';
+            }
+        }
+
+        // 4. GO TO ANNIVERSARY
+        function goNext() {
+            bgMusic.pause();
+            bday.style.display = 'none';
+            anniv.style.display = 'flex';
+            annivMusic.play();
+            startFireworks();
+        }
+
+        // 5. FIREWORKS LOGIC
+        function startFireworks() {
+            const cvs = document.getElementById('fwCanvas');
+            const ctx = cvs.getContext('2d');
+            cvs.width = window.innerWidth;
+            cvs.height = window.innerHeight;
+
+            let pts = [];
+            
+            function animate() {
+                if(anniv.style.display === 'none') return;
+                ctx.fillStyle = 'rgba(0,0,0,0.2)';
+                ctx.fillRect(0, 0, cvs.width, cvs.height);
+
+                if(Math.random() < 0.05) {
+                    const x = Math.random() * cvs.width;
+                    const y = Math.random() * cvs.height / 2;
+                    const color = `hsl(${Math.random()*360}, 100%, 50%)`;
+                    for(let i=0; i<30; i++) {
+                        pts.push({
+                            x: x, y: y,
+                            vx: (Math.random()-0.5) * 8,
+                            vy: (Math.random()-0.5) * 8,
+                            color: color, alpha: 1
+                        });
+                    }
+                }
+
+                pts.forEach((p, i) => {
+                    p.x += p.vx; p.y += p.vy; p.alpha -= 0.02;
+                    ctx.globalAlpha = p.alpha;
+                    ctx.fillStyle = p.color;
+                    ctx.beginPath(); ctx.arc(p.x, p.y, 3, 0, Math.PI*2); ctx.fill();
+                    if(p.alpha <= 0) pts.splice(i, 1);
+                });
+                requestAnimationFrame(animate);
+            }
+            animate();
+        }
+    </script>
+</body>
+</html>
